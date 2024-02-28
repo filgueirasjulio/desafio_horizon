@@ -41,6 +41,6 @@ php artisan key:generate
 ```
 
 ### 4. Testando a aplicação
-```
-http://localhost:8989/
-```
+
+- [http://localhost:8989/](http://localhost:8989/)
+

@@ -29,6 +29,7 @@ class FlightTicketSeeder extends Seeder
             FlightTicket::create([
                 'flight_seat_id' => $seat->id,
                 'ticket_price' => $class_prices[$seat->travel_class_id],
+                'number' => generateRandomNumber()
             ]);
         }
     }

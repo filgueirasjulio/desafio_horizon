@@ -33,12 +33,12 @@ if (!function_exists('convertUsDateToBr')) {
     /**
      * Converte uma data do formato brasileiro para o formato americano.
      *
-     * @param string $brDate
+     * @param string $usDate
      * @return string
      */
-    function convertUsDateToBr($brDate)
+    function convertUsDateToBr($usDate)
     {
-        return Carbon::createFromFormat('Y-m-d', $brDate)->format('d/m/Y');
+        return Carbon::createFromFormat('Y-m-d', $usDate)->format('d/m/Y');
     }
 }
 
@@ -76,5 +76,12 @@ if (!function_exists('calculateAge')) {
 
         // Return the age
         return $difference->y;
+    }
+}
+
+if (!function_exists('generateRandomNumber')) {
+    function generateRandomNumber()
+    {
+        return random_int(10000000, 99999999);
     }
 }

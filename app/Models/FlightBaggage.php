@@ -14,6 +14,7 @@ class FlightBaggage extends Model
     protected $fillable = [
         'flight_ticket_id',
         'needs_dispatch',
+        'dispatch_reason_id',
         'baggage_weight',
     ];
 

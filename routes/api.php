@@ -32,4 +32,7 @@ Route::post('/flights', [FlightController::class, 'store']);
 
 /* Passagens */
 Route::get('/tickets', [FlightTicketController::class, 'index']);
-Route::post('/tickets', [FlightTicketController::class, 'buy']);
+Route::get('/tickets/{ticket}', [FlightTicketController::class, 'show']);
+Route::get('/tickets/{ticket}/voucher', [FlightTicketController::class, 'voucher']);
+Route::put('/tickets/{ticket}/buy', [FlightTicketController::class, 'buy']);
+Route::put('/tickets/{ticket}/cancel', [FlightTicketController::class, 'cancel']);

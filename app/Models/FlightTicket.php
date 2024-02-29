@@ -12,6 +12,7 @@ class FlightTicket extends Model
     protected $fillable = [
         'flight_seat_id',
         'ticket_price',
+        'number'
     ];
 
     #relations
@@ -20,9 +21,9 @@ class FlightTicket extends Model
         return $this->belongsTo(FlightSeat::class, 'flight_seat_id');
     }
 
-    public function passenger()
+    public function baggage()
     {
-        return $this->belongsTo(User::class, 'passenger_id', 'id');
+        return $this->hasOne(FlightBaggage::class, 'flight_ticket_id', 'id');
     }
     #end relations
 }

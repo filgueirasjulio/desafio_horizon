@@ -25,7 +25,8 @@ class FlightRepository
      */
     public function getAll()
     {
-        return $this->model->paginate(50);
+        return $this->model->with(['seats.ticket', 'seats.passenger'])
+        ->paginate(50);
     }
 
     /**
@@ -63,7 +64,7 @@ class FlightRepository
                 'seats_limit' => $item['limit']
             ]);
         }
-
+   
         //adicionar os assentos
         $seats = $this->flightSeatService->createSeatsForFlight($flight->id, $data['seats_qty'], $flightClasses);
 

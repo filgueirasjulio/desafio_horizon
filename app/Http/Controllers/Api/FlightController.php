@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Services\FlightService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FlightResource;
 use App\Http\Requests\FlightStoreRequest;
+use App\Services\FlightService;
 
 class FlightController extends Controller
 {
@@ -25,6 +24,7 @@ class FlightController extends Controller
     public function index()
     {
         $flights = $this->flightService->getAllAirports();
+
         return FlightResource::collection($flights);
     }
 

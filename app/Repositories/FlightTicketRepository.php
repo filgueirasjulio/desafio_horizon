@@ -2,25 +2,33 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Models\Flight;
 use App\Models\FlightSeat;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use App\Models\FlightTicket;
 use App\Services\FlightSeatService;
+use Illuminate\Support\Facades\Hash;
 
 class FlightTicketRepository
 {
     protected $model;
     protected $flightSeatRepository;
+    protected static ?string $password;
 
-    public function __construct(FlightTicket $model, FlightSeatRepository $flightSeatRepository)
+    public function __construct(FlightTicket $model)
     {
         $this->model = $model;
-        $this->flightSeatRepository = $flightSeatRepository;
+    }
+
+    public function findById($id)
+    {
+        return $this->model->find($id);
     }
 
     public function getTickets(array $data)
     {
-
         $collection = $this->model
             ->whereHas('flightSeat', function ($subQuery) {
                 $subQuery->where('is_occupied', 0);
@@ -60,11 +68,48 @@ class FlightTicketRepository
         return $collection;
     }
 
-    public function create(array $data)
+    public function create(FlightSeat $seat)
     {
-      dd("oiii");
-      $seat = $this->flightSeatRepository->findById($data['flight_seat_id']);
+      //$seat = $this->flightSeatRepository->findById($data['flight_seat_id']);
 
-      dd($seat);
+      $data = [
+        'flight_seat_id' => $seat->id,
+        'ticket_price' => config('enums.travel_classes.prices')[$seat->travel_class_id]
+      ];
+
+       return  $this->model->create($data);
+    }
+
+    
+    public function buyTicket(array $data)
+    {
+        $ticket = $this->findById($data['flight_ticket_id']);
+        $passenger = null;
+
+        //caso a passagem não seja pro próprio usuario, verificamos se a pessoa já está cadastrada.
+        if(!isset($data['passenger_id'])) {
+            $passenger = User::where('cpf', $data['passenger_cpf'])->first();
+            if(!$passenger) {
+                $passenger = User::create([
+                    'name' => $data['passenger_name'],
+                    'email' => $data['passenger_email'],
+                    'email_verified_at' => now(),
+                    'password' => static::$password ??= Hash::make($data['passenger_cpf']),
+                    'remember_token' => Str::random(10),
+                    'birth' => convertBrDateToUs($data['passenger_birth']) ,
+                    'cpf' =>  $data['passenger_cpf'],
+                ]);     
+            }
+    
+        }
+
+        $passenger_id = $passenger ? $passenger->id : $data['passenger_id'];
+      
+        $ticket->flightSeat->update([
+            'is_occupied' => $data['cancel_order'] ? 0 : 1,
+            'passenger_id' => $data['cancel_order'] ? null : $passenger_id
+        ]);
+
+        return $ticket;
     }
 }

@@ -20,8 +20,13 @@ class FlightTicketService
         return $this->flightTicketRepository->getTickets($data);
     }
 
-    public function create(array $data)
+    public function create(FlightSeat $model)
     {
-        return $this->flightTicketRepository->create($data);
+        return $this->flightTicketRepository->create($model);
+    }
+    
+    public function buyTicket(array $data)
+    {
+        return $this->flightTicketRepository->buyTicket($data);
     }
 }

@@ -39,7 +39,7 @@ class FlightSeatRepository
               
                 //assento
                 $seat = $this->model->create($seatsData[0]);
-
+             
                 //passagem
                 $ticket = $this->flightTicketService->create($seat);
             }

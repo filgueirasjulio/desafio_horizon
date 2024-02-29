@@ -17,6 +17,7 @@ class FlightTicketResource extends JsonResource
         return [
             'id' => $this->id,
             'flight_id' => $this->flightSeat->flight_id,
+            'flight_seat_id' => $this->flightSeat->id,
             'price' => $this->ticket_price,
             'travel_class' => $this->flightSeat->travel_flight,
             'is_paid' => $this->flightSeat->is_occupied,

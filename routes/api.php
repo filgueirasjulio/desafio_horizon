@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api as Controller;
 use App\Http\Controllers\Api\FlightController;
 use App\Http\Controllers\Api\AirportController;
 use App\Http\Controllers\Api\FlightTicketController;
@@ -33,4 +32,4 @@ Route::post('/flights', [FlightController::class, 'store']);
 
 /* Passagens */
 Route::get('/tickets', [FlightTicketController::class, 'index']);
-Route::post('/tickets', [FlightTicketController::class, 'store']);
+Route::post('/tickets', [FlightTicketController::class, 'buy']);

@@ -24,7 +24,7 @@ if (!function_exists('convertBrDateToUs')) {
      * @return string
      */
     function convertBrDateToUs($brDate)
-    {
+    {   
         return Carbon::createFromFormat('d/m/Y', $brDate)->format('Y-m-d');
     }
 }
